@@ -26,10 +26,10 @@
 --]]
 Class = require "class"
 local Point = Class.create()
-Point.initialize = function(self, ... )
+Point.initialize = function(self, ...)
 	self.coords = {}
 	
-	for k, coord in ipairs(arg) do
+	for k, coord in ipairs({...}) do
 		table.insert(self.coords, coord)
 	end
 end
@@ -41,34 +41,47 @@ end
 point.get = function(self, dim)
 	return self.coords[dim]
 end
-Class.overloadAdd = function(a,b)
+Class.overloadAdd(Point ,  function(a,b)
 	local newCoords = {}
-	for k, coord in ipairs(a.coods) do
-		newCoords = coord + b.coords[k]
+	for k, coord in ipairs(a.coords) do
+		newCoords[k] = coord + b.coords[k]
 	end
 	return Point(table.unpack(newCoords))
-end
-Class.overloadSub = function(a,b)
+end)
+Class.overloadSub(Point , function(a,b)
 	local newCoords = {}
-	for k, coord in ipairs(a.coods) do
-		newCoords = coord - b.coords[k]
+	for k, coord in ipairs(a.coords) do
+		newCoords[k] = coord - b.coords[k]
+	end
+	return Point(table.unpack(newCoords))
+end)
+
+Class.overloadMul = function(a,scalar)
+	local newCoords = {}
+	for k, coord in ipairs(a.coords) do
+		newCoords[k] = coord *scalar
 	end
 	return Point(table.unpack(newCoords))
 end
 
-Class.overloadMul = function(a,scalar)
+Class.overloadDiv(Point ,  function(a,scalar)
 	local newCoords = {}
-	for k, coord in ipairs(a.coods) do
-		newCoords = coord *scalar
+	for k, coord in ipairs(a.coords) do
+		newCoords[k] = coord /scalar
 	end
 	return Point(table.unpack(newCoords))
-end
-Class.overloadDiv = function(a,scalar)
-	local newCoords = {}
-	for k, coord in ipairs(a.coods) do
-		newCoords = coord /scalar
+end)
+
+Class.overloadEq(Point , function(a,b)
+	local ret = true;
+	for k, coord in ipairs(a.coords) do
+		ret = coord == b.coords[k]
+		if not ret then
+			break
+		end
 	end
-	return Point(table.unpack(newCoords))
-end
+	return ret
+end)
+
 return Point
 
