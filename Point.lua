@@ -38,7 +38,7 @@ Point.dimention = function(self)
 	return #self.coords
 end
 
-point.get = function(self, dim)
+Point.get = function(self, dim)
 	return self.coords[dim]
 end
 Class.overloadAdd(Point ,  function(a,b)
@@ -56,13 +56,13 @@ Class.overloadSub(Point , function(a,b)
 	return Point(table.unpack(newCoords))
 end)
 
-Class.overloadMul = function(a,scalar)
+Class.overloadMul (Point ,  function(a,scalar)
 	local newCoords = {}
 	for k, coord in ipairs(a.coords) do
 		newCoords[k] = coord *scalar
 	end
 	return Point(table.unpack(newCoords))
-end
+end)
 
 Class.overloadDiv(Point ,  function(a,scalar)
 	local newCoords = {}
