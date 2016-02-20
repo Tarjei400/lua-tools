@@ -4,7 +4,7 @@
 #                                                                       #
 # polygon.lua                                                           #
 #                                                                       #
-# Generic 2D polygon class                                              #
+# Generic polygon class                                                 #
 #                                                                       #
 # Copyright 2011 Josh Bothun                                            #
 # joshbothun@gmail.com                                                  #
@@ -44,11 +44,6 @@ function Polygon:numPoints()
     return math.floor(#self.points)
 end
 
-function Polygon:setPoint(i, x, y)
-    self[i * 2 - 1] = x
-    self[i * 2] = y
-end
-
 function Polygon:getPointTables()
     return self.points
 end
@@ -56,7 +51,12 @@ end
 -- Get the centroid of the polygon
 -- http://en.wikipedia.org/wiki/Centroid
 function Polygon:getCentroid()
-    local centroid = Point(0,0,0)
+    local dim = self.points[1]:dimention()
+    local zeroes = {}
+    for i = 1, dim do
+	zeroes[i] = 0
+    end
+    local centroid = Point(unpack(zeroes))
 	
     for point in self.points do
         centroid = centroid + point

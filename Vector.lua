@@ -29,13 +29,13 @@ Class = require "class"
 Point = require "Point"
 
 local Vector = Class.create()
-Vector.initialize = function(from, to)
+Vector.initialize = function(self, from, to)
 	if not from:isa(Point) or not to:isa(Point) then error("from and to needs to be points") end
 	self.from = from
 	self.to = to
 end
 
-Vector.norm = function()
+Vector.norm = function(self)
 	local p = self.to - self.from
 	local ret = 0;
 	for k , coord in pairs(p.coords) do
@@ -43,3 +43,5 @@ Vector.norm = function()
 	end	
 	return math.sqrt(ret)
 end
+
+return Vector

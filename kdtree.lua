@@ -43,7 +43,7 @@ Node.initialize= function(point, left, right, depth)
 	self.depth = depth
 end
 local KDTree = Class.create()
-KDTree.initialize = function(points, depth)
+KDTree.initialize = function(self, points, depth)
 	depth = depth ~= nil and depth or 1
 	local k = points[1]:dimention()
 	
@@ -54,6 +54,7 @@ KDTree.initialize = function(points, depth)
 	local axis = depth % k
 	local median = math.floor(#points/2)
 	table.sort(points, function(a,b)
+		print("TEST"..tostring(b:get(axix) ))
 		return a:get(axix) < b:get(axis)
 	end)
 	
@@ -65,7 +66,7 @@ KDTree.initialize = function(points, depth)
 
 end
 KDTree.nearestTo = function(self, p, node)
-	if node == nil and node.depth == 1 then node == self.root end
+	if node == nil and node.depth == 1 then node = self.root end
 	if node == nil then return node.point end
 
 	local k = p:dimention()
