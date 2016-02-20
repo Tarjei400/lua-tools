@@ -28,6 +28,11 @@
 Class = require "class"
 Point = require "Point"
 
+local Node = Class.create()
+Node.initialize= function(left, right)
+	self.left = left
+	self.right = right
+end
 local KDTree = Class.create()
 
-
+return KDTree
