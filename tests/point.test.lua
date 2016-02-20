@@ -21,7 +21,13 @@ function teardown()
   p2 = nil
 
 end
-
+function test_coordinate_gettypes()
+	assert_equal(1,p1:get(1))
+	assert_equal(2,p1:get(2))
+	assert_equal(3,p1:get(3))
+	assert_equal(4,p1:get(4))
+	assert_equal(5,p1:get(5))
+end
 function test_coordinate_types()
 	for k, v in ipairs(p1.coords) do
 		assert_equal("number", type(v))
