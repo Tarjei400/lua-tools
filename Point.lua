@@ -4,7 +4,7 @@
 #                                                                       #
 # polygon.lua                                                           #
 #                                                                       #
-# Generic 2D point class , containing layer parameter z                 #
+# Generic point class 					                #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # joshbothun@gmail.com                                                  #
@@ -26,26 +26,42 @@
 --]]
 Class = require "class"
 local Point = Class.create()
-Point.initialize = function(self, x,y,z)
-	if x == nil or y == nil or z == nil then error("Invalid coordinates") end
-	self.x = x
-	self.y = y
-	--Z is only layer parameter
-	self.z = z
+Point.initialize = function(self, ... )
+	self.coords = {}
+	
+	for k, coord in ipairs(arg) do
+		table.insert(self.coords, coord)
+	end
 end
 
 Class.overloadAdd = function(a,b)
-	return Point(a.x + b.x, a.y + b.y)
+	local newCoords = {}
+	for k, coord in ipairs(a.coods) do
+		newCoords = coord + b.coords[k]
+	end
+	return Point(table.unpack(newCoords))
 end
 Class.overloadSub = function(a,b)
-	return Point(a.x - b.x, a.y - b.y)
+	local newCoords = {}
+	for k, coord in ipairs(a.coods) do
+		newCoords = coord - b.coords[k]
+	end
+	return Point(table.unpack(newCoords))
 end
 
 Class.overloadMul = function(a,scalar)
-	return Point(a.x * scalar, a.y * scalar)
+	local newCoords = {}
+	for k, coord in ipairs(a.coods) do
+		newCoords = coord *scalar
+	end
+	return Point(table.unpack(newCoords))
 end
 Class.overloadDiv = function(a,scalar)
-	return Point(a.x / scalar, a.y / scalar)
+	local newCoords = {}
+	for k, coord in ipairs(a.coods) do
+		newCoords = coord /scalar
+	end
+	return Point(table.unpack(newCoords))
 end
 return Point
 

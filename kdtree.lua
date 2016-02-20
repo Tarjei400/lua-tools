@@ -34,5 +34,10 @@ Node.initialize= function(left, right)
 	self.right = right
 end
 local KDTree = Class.create()
+KDTree.initialize = function(points, depth)
+	depth = depth ~= nil and depth or 0
+	local k = #points
+	local axis = depth % k
 
+end
 return KDTree

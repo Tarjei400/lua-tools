@@ -4,7 +4,7 @@
 #                                                                       #
 # polygon.lua                                                           #
 #                                                                       #
-# Generic 2D vector class                                               #
+# Generic vector class	                                                #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # adrian.jutrowski@gmail.com                                            #
@@ -37,5 +37,9 @@ end
 
 Vector.norm = function()
 	local p = self.to - self.from
-	return math.sqrt(p.x*p.x + p.y*p.y)
+	local ret = 0;
+	for k , coord in pairs(p.coords) do
+		ret = ret + coord*coord
+	end	
+	return math.sqrt(ret)
 end
