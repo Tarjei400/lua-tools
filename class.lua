@@ -53,6 +53,9 @@ Class.create = function(parent)
 
 	return newClass
 end
+Class.overloadEq  = function(class, callback)
+	class.overloads.__eq = callback
+end
 Class.overloadAdd  = function(class, callback)
 	class.overloads.__add = callback
 end
