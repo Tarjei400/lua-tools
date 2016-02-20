@@ -46,6 +46,9 @@ KDTree.initialize = function(points, depth)
 	depth = depth ~= nil and depth or 0
 	local k = #points[1]:dimention()
 	
+	if #points == 1 then
+		return Node( points[1], nil, nil)
+	end
 	--Select axis, sort points
 	local axis = depth % k
 	local median = math.floor(#points/2)
@@ -54,8 +57,8 @@ KDTree.initialize = function(points, depth)
 	end)
 	
 	return Node( points[median], 
-		   KDTree.initialize(subset(points, 1, median), depth+1),
-		   KDTree.initialize(subset(points, median + 1, #points), depth+1)
+		   KDTree(subset(points, 1, median), depth+1),
+		   KDTree(subset(points, median + 1, #points), depth+1)
 		)
 
 end
