@@ -4,7 +4,7 @@
 #                                                                       #
 # polygon.lua                                                           #
 #                                                                       #
-# Generic 2D vector class                                               #
+# Generic KDTree class                                               #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # adrian.jutrowski@gmail.com                                            #
@@ -36,18 +36,19 @@ local function subset(t, from, to)
 	return ret
 end
 local Node = Class.create()
-Node.initialize= function(point, left, right)
+Node.initialize= function(point, left, right, depth)
 	self.point = point
 	self.left = left
 	self.right = right
+	self.depth = depth
 end
 local KDTree = Class.create()
 KDTree.initialize = function(points, depth)
-	depth = depth ~= nil and depth or 0
+	depth = depth ~= nil and depth or 1
 	local k = #points[1]:dimention()
 	
 	if #points == 1 then
-		return Node( points[1], nil, nil)
+		return Node( points[1], nil, nil, depth)
 	end
 	--Select axis, sort points
 	local axis = depth % k
@@ -56,10 +57,16 @@ KDTree.initialize = function(points, depth)
 		return a:get(axix) < b:get(axis)
 	end)
 	
-	return Node( points[median], 
+	self.root = Node( points[median], 
 		   KDTree(subset(points, 1, median), depth+1),
-		   KDTree(subset(points, median + 1, #points), depth+1)
+		   KDTree(subset(points, median + 1, #points), depth+1),
+		   depth
 		)
 
+end
+KDTree.nearestTo = function(p, node)
+	if node == nil then node == self.root end
+	
+	
 end
 return KDTree
