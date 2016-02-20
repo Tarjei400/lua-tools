@@ -28,16 +28,35 @@
 Class = require "class"
 Point = require "Point"
 
+local function subset(t, from, to)
+	local ret = {}
+	for i = from, to do
+		table.insert(ret, t[i])
+	end
+	return ret
+end
 local Node = Class.create()
-Node.initialize= function(left, right)
+Node.initialize= function(point, left, right)
+	self.point = point
 	self.left = left
 	self.right = right
 end
 local KDTree = Class.create()
 KDTree.initialize = function(points, depth)
 	depth = depth ~= nil and depth or 0
-	local k = #points
+	local k = #points[1]:dimention()
+	
+	--Select axis, sort points
 	local axis = depth % k
+	local median = math.floor(#points/2)
+	table.sort(points, function(a,b)
+		return a:get(axix) < b:get(axis)
+	end)
+	
+	return Node( points[median], 
+		   KDTree.initialize(subset(points, 1, median), depth+1),
+		   KDTree.initialize(subset(points, median + 1, #points), depth+1)
+		)
 
 end
 return KDTree

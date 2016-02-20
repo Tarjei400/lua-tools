@@ -34,6 +34,13 @@ Point.initialize = function(self, ... )
 	end
 end
 
+Point.dimention = function(self)
+	return #self.coords
+end
+
+point.get = function(self, dim)
+	return self.coords[dim]
+end
 Class.overloadAdd = function(a,b)
 	local newCoords = {}
 	for k, coord in ipairs(a.coods) do
