@@ -45,7 +45,7 @@ end
 local KDTree = Class.create()
 KDTree.initialize = function(points, depth)
 	depth = depth ~= nil and depth or 1
-	local k = #points[1]:dimention()
+	local k = points[1]:dimention()
 	
 	if #points == 1 then
 		return Node( points[1], nil, nil, depth)
@@ -64,9 +64,28 @@ KDTree.initialize = function(points, depth)
 		)
 
 end
-KDTree.nearestTo = function(p, node)
-	if node == nil then node == self.root end
+KDTree.nearestTo = function(self, p, node)
+	if node == nil and node.depth == 1 then node == self.root end
+	if node == nil then return node.point end
+
+	local k = p:dimention()
+	local axis = node.depth % k
 	
-	
+	local point = nil
+	if p:get(axis) < node.p:get(axis) then
+		point = self:nearestTo(p, node.left)
+	else
+		point = self:nearestTo(p, node.right)
+	end
+
+	local childVec = Vector(p, point)
+	local nodeVec = Vector(p. node.point)
+
+	if childVec:norm() <= nodeVec:norm() then
+		return point
+	else
+		return node.point
+	end
 end
+
 return KDTree

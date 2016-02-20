@@ -29,7 +29,16 @@ function test_coordinate_types()
 end
 function test_adding()
   local ret = Point(2,4,6,8,10)
-  assert_true(true, p1+p2==ret)	
+  assert_equal( p1+p2, ret)	
 
 end
 
+function test_multiplication()
+  assert_equal(p1 + p2, p1*2)
+  
+end
+
+function test_division()
+  local ret = Point(2,4,6,8,10)
+  assert_equal(p1, (p1*2)/2)
+end
