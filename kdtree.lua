@@ -83,7 +83,7 @@ KDTree.print = function(self,n)
 	if n.left~=nil then print(string.rep('-', n.depth).."L:")self:print(n.left) end
 	if n.right~=nil then print(string.rep('-', n.depth).."R:")self:print(n.right) end
 end
-KDTree.nearestTo = function(self, p, node, depth)
+KDTree.nearestTo = function(self, p, node, metric, depth)
 
 	if depth == nil then depth = self.root.depth end
 	if node == nil then
@@ -116,17 +116,20 @@ KDTree.nearestTo = function(self, p, node, depth)
 		return node.point
 	end
 
+	local metric = metric ~= nil and metric or function(lNorm, rNorm, node)
+		return lNorm < rNorm
+	end
 	--If distance from left side is smaller, we look to the left
-	if leftNorm < rightNorm then
+	if metric(leftNorm, rightNorm) then
 		if node.left == nil then
 			if node.right == nil then
 				return node.point
 			else
-				point = self:nearestTo(p, node.right, depth + 1)
+				point = self:nearestTo(p, node.right, metric, depth + 1)
 			end
 
 		else
-			point = self:nearestTo(p, node.left, depth+1)
+			point = self:nearestTo(p, node.left, metric, depth+1)
 		end
 	-- Otherwise we check to the right
 	else
@@ -134,11 +137,11 @@ KDTree.nearestTo = function(self, p, node, depth)
 			if node.left == nil then
 				return node.point
 			else
-				point = self:nearestTo(p, node.left, depth + 1)
+				point = self:nearestTo(p, node.left, metric, depth + 1)
 			end
 
 		else
-			point = self:nearestTo(p, node.right, depth+1)
+			point = self:nearestTo(p, node.right, metric, depth+1)
 		end
 	end
 
