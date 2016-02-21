@@ -42,8 +42,8 @@ Point.get = function(self, dim)
 	return self.coords[dim]
 end
 
-Point.move = function(self ,x, y)
-	return self + Point(x, y)
+Point.move = function(self ,...)
+	return self + Point(...)
 end
 Class.overloadAdd(Point ,  function(a,b)
 	local newCoords = {}

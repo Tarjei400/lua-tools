@@ -74,3 +74,8 @@ function test_division()
   local ret = Point(2,4,6,8,10)
   assert_equal(p1, (p1*2)/2)
 end
+
+function test_move()
+    local ret = Point(2,3,4,5,6)
+    assert_equal(ret, p1:move(1,1,1,1,1))
+end

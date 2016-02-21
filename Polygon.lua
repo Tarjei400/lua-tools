@@ -45,10 +45,10 @@ function Polygon.calculateAllCentroids()
     return ret
 end
 
-function Polygon:move(x,y)
+function Polygon:move(...)
     local newPoly = Polygon();
     for k, point in pairs(self.points) do
-        newPoly:addPoint(pont:move(x,y))
+        newPoly:addPoint(pont:move(...))
     end
 end
 function Polygon:register()
