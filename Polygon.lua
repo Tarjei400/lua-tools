@@ -48,8 +48,10 @@ end
 function Polygon:move(...)
     local newPoly = Polygon();
     for k, point in pairs(self.points) do
-        newPoly:addPoint(pont:move(...))
+        local newPoint = point:move(...);
+        newPoly:addPoint(unpack(newPoint.coords))
     end
+    return newPoly
 end
 function Polygon:register()
     table.insert(Polygon.polygons, self)
@@ -75,10 +77,10 @@ function Polygon:getCentroid()
     local dim = self.points[1]:dimention()
     local zeroes = {}
     for i = 1, dim do
-	zeroes[i] = 0
+        zeroes[i] = 0
     end
     local centroid = Point(unpack(zeroes))
-	
+
     for k, point in pairs(self.points) do
         centroid = centroid + point
     end
@@ -95,8 +97,10 @@ end
 function Polygon:normalize()
     local c = self:getCentroid()
     table.sort(self.points, function(a, b)
-        return math.atan2(a.y - c.y, a.x - c.x) >
-               math.atan2(b.y - c.y, b.x - c.x)
+        local ac = a - c
+        local bc = b - c
+        return math.atan2(unpack(ac.coords)) >
+                math.atan2(unpack(bc.coords))
     end)
 end
 
@@ -110,16 +114,22 @@ function Polygon:contains(m)
 
     for i=1, #points do
         if ((points[i]:get(2) < m:get(2) and points[j]:get(2) >= m:get(2)
-        or points[j]:get(2) < m:get(2)  and points[i]:get(2) >=m:get(2) ) and (points[i]:get(1)<=m:get(1)
+                or points[j]:get(2) < m:get(2)  and points[i]:get(2) >=m:get(2) ) and (points[i]:get(1)<=m:get(1)
                 or points[j]:get(1) <=m:get(1))) then
-                if (points[i]:get(1)+(m:get(2) -points[i]:get(2) )/(points[j]:get(2) -points[i]:get(2) )*(points[j]:get(1)-points[i]:get(1))<m:get(1)) then
-                        oddNodes = not oddNodes
-                end
+            if (points[i]:get(1)+(m:get(2) -points[i]:get(2) )/(points[j]:get(2) -points[i]:get(2) )*(points[j]:get(1)-points[i]:get(1))<m:get(1)) then
+                oddNodes = not oddNodes
+            end
         end
         j = i
     end
 
     return oddNodes
 end
+function Polygon:print()
+    for k, point in ipairs(self.points) do
+        print("{", unpack(point.coords))
+    end
+end
 
 return Polygon
+

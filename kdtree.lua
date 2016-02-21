@@ -64,6 +64,11 @@ KDTree.initialize = function(self, points, depth)
 
 	local median = math.floor(#points/2)
 	table.sort(points, function(a,b)
+		--If points are colinear, we use next axis to sort them
+		if a:get(axis) == b:get(axis) then
+			local nextAxis = (axis + 1) % k
+			return a:get(nextAxis) < b:get(nextAxis)
+		end
 		return a:get(axis) < b:get(axis)
 	end)
 	

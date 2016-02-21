@@ -48,7 +48,7 @@ end
 
 
 function test_nearest()
-	local points = Polygon.calculateAllCentroids()
+	--[[local points = Polygon.calculateAllCentroids()
 	for k, v in pairs(points) do
 		print('POINT: ', unpack(v.coords))
 	end
@@ -64,9 +64,36 @@ function test_nearest()
 		return lNorm < rNorm
 	end)
 
-	tree:print();
+	--tree:print();
 	print("Matching polygons = "..#polys)
-	print("Nearest = ", unpack(p.coords))
+	print("Nearest = ", unpack(p.coords))]]
 
+end
+
+function test_on_one_axis()
+	Polygon.polygons = {}
+	local poly = Polygon();
+	poly:addPoint(0,0)
+	poly:addPoint(0,10)
+	poly:addPoint(10,10)
+	poly:addPoint(10,0)
+
+	for i = 1, 10 do
+		local p = poly:move(15*i, 0)
+	end
+	local points = Polygon.calculateAllCentroids()
+	local tree = KDTree(points)
+	tree:print()
+	local searchTo = Point(5, 5)
+	local polys = {}
+	local p = tree:nearestTo(searchTo, function(lNorm, rNorm, node)
+		local poly = node.point.polygon
+		if poly:contains(searchTo) then
+			table.insert(polys, poly)
+		end
+		return lNorm < rNorm
+	end)
+	print("Zones:" .. #polys)
+	print("Closest:", unpack(p.coords))
 end
 

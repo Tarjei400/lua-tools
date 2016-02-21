@@ -50,14 +50,14 @@ Class.overloadAdd(Point ,  function(a,b)
 	for k, coord in ipairs(a.coords) do
 		newCoords[k] = coord + b.coords[k]
 	end
-	return Point(table.unpack(newCoords))
+	return Point(unpack(newCoords))
 end)
 Class.overloadSub(Point , function(a,b)
 	local newCoords = {}
 	for k, coord in ipairs(a.coords) do
 		newCoords[k] = coord - b.coords[k]
 	end
-	return Point(table.unpack(newCoords))
+	return Point(unpack(newCoords))
 end)
 
 Class.overloadMul (Point ,  function(a,scalar)
@@ -65,7 +65,7 @@ Class.overloadMul (Point ,  function(a,scalar)
 	for k, coord in ipairs(a.coords) do
 		newCoords[k] = coord *scalar
 	end
-	return Point(table.unpack(newCoords))
+	return Point(unpack(newCoords))
 end)
 
 Class.overloadDiv(Point ,  function(a,scalar)
@@ -73,7 +73,7 @@ Class.overloadDiv(Point ,  function(a,scalar)
 	for k, coord in ipairs(a.coords) do
 		newCoords[k] = coord /scalar
 	end
-	return Point(table.unpack(newCoords))
+	return Point(unpack(newCoords))
 end)
 
 Class.overloadEq(Point , function(a,b)
