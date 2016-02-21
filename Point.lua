@@ -41,6 +41,10 @@ end
 Point.get = function(self, dim)
 	return self.coords[dim]
 end
+
+Point.move = function(self ,x, y)
+	return self + Point(x, y)
+end
 Class.overloadAdd(Point ,  function(a,b)
 	local newCoords = {}
 	for k, coord in ipairs(a.coords) do

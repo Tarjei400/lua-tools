@@ -44,6 +44,13 @@ function Polygon.calculateAllCentroids()
     end
     return ret
 end
+
+function Polygon:move(x,y)
+    local newPoly = Polygon();
+    for k, point in pairs(self.points) do
+        newPoly:addPoint(pont:move(x,y))
+    end
+end
 function Polygon:register()
     table.insert(Polygon.polygons, self)
 end
