@@ -4,11 +4,11 @@
 #                                                                       #
 # polygon.lua                                                           #
 #                                                                       #
-# Generic point class 					                #
+# Generic point class 					                                #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # joshbothun@gmail.com                                                  #
-# 			                                                #
+# 			                                                            #
 #                                                                       #
 # This program is free software: you can redistribute it and/or modify  #
 # it under the terms of the GNU General Public License as published by  #

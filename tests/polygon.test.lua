@@ -65,7 +65,7 @@ function test_nearest()
 	end)
 
 	tree:print();
-	print("Mathing polygons = "..#polys)
+	print("Matching polygons = "..#polys)
 	print("Nearest = ", unpack(p.coords))
 
 end
