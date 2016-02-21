@@ -22,6 +22,8 @@ But if distribution of points is rather random, its better to use this method in
 	
 ```
 
+Finding a list of polygons closest to a given point, and containing this point inside.
+
 ```
 	--Initialize some polygons
 	for i = 4, 30 do
