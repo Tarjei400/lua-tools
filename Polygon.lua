@@ -31,11 +31,23 @@ Vector = require 'Vector'
 
 
 local Polygon = Class.create()
+Polygon.polygons = {}
 
-
+function Polygon.initialize(self)
+    self:register()
+end
+function Polygon.calculateAllCentroids()
+    local ret = {}
+    for k, polygon in pairs(Polygon.polygons) do
+        table.insert(ret, polygon:getCentroid())
+    do
+end
+function Polygon:register()
+    table.insert(Polygon.polygons, self)
+end
 -- Add a new point to the polygon
-function Polygon:addPoint(x,y,z)
-    local point = Point(x,y,z)
+function Polygon:addPoint(...)
+    local point = Point(...)
     point.polygon = self
     table.insert(self.points, point)
 end
@@ -61,6 +73,7 @@ function Polygon:getCentroid()
     for point in self.points do
         centroid = centroid + point
     end
+
     local npoints = self:numPoints()
     return centroid / npoints
 end
