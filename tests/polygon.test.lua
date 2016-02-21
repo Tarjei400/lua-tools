@@ -72,28 +72,38 @@ end
 
 function test_on_one_axis()
 	Polygon.polygons = {}
-	local poly = Polygon();
-	poly:addPoint(0,0)
-	poly:addPoint(0,10)
-	poly:addPoint(10,10)
-	poly:addPoint(10,0)
+	local CONQUERIA = Polygon()
+	CONQUERIA:addPoint(1528, 1547)
+	CONQUERIA:addPoint(1537, 1547)
+	CONQUERIA:addPoint(1537, 1557)
+	CONQUERIA:addPoint(1528, 1557)
+	CONQUERIA.sound = "Fairy Tail - Main.ogg"
+	CONQUERIA.fadeIn = 3
+	CONQUERIA.priority = 1
+	CONQUERIA:normalize()
 
 	for i = 1, 10 do
-		local p = poly:move(15*i, 0)
+		local CONQUERIA2 = CONQUERIA:move(0,30*i)
+		CONQUERIA2.sound = "Fairy Tail - Main.ogg"
+		CONQUERIA2.priority = 1
+		CONQUERIA2.fadeIn = 3
 	end
+
 	local points = Polygon.calculateAllCentroids()
 	local tree = KDTree(points)
 	tree:print()
-	local searchTo = Point(5, 5)
+	local searchTo = Point(1533, 1554)
 	local polys = {}
 	local p = tree:nearestTo(searchTo, function(lNorm, rNorm, node)
 		local poly = node.point.polygon
+		print("Visited:", unpack(node.point.coords))
 		if poly:contains(searchTo) then
 			table.insert(polys, poly)
 		end
 		return lNorm < rNorm
 	end)
-	print("Zones:" .. #polys)
 	print("Closest:", unpack(p.coords))
+	print("Zones:" .. #polys)
+
 end
 

@@ -66,7 +66,7 @@ KDTree.initialize = function(self, points, depth)
 	table.sort(points, function(a,b)
 		--If points are colinear, we use next axis to sort them
 		if a:get(axis) == b:get(axis) then
-			local nextAxis = (axis + 1) % k
+			local nextAxis = (axis) % k + 1
 			return a:get(nextAxis) < b:get(nextAxis)
 		end
 		return a:get(axis) < b:get(axis)
@@ -82,12 +82,14 @@ KDTree.initialize = function(self, points, depth)
 
 
 end
+
 KDTree.print = function(self,n)
 	if n == nil then n = self.root end
 		print("{", unpack(n.point.coords))
 	if n.left~=nil then print(string.rep('-', n.depth).."L:")self:print(n.left) end
 	if n.right~=nil then print(string.rep('-', n.depth).."R:")self:print(n.right) end
 end
+
 KDTree.nearestTo = function(self, p,  metric, node, depth)
 
 	if depth == nil then depth = self.root.depth end
@@ -106,6 +108,9 @@ KDTree.nearestTo = function(self, p,  metric, node, depth)
 	local rightNorm = -1;
 	local nodeVec = Vector(p, node.point)
 
+	local metric = metric ~= nil and metric or function(lNorm, rNorm, node)
+		return lNorm < rNorm
+	end
 
 	if node.left ~= nil then
 		local leftVec = Vector(p, node.left.point)
@@ -116,16 +121,15 @@ KDTree.nearestTo = function(self, p,  metric, node, depth)
 		rightNorm = rightVec:norm()
 	end
 
+	local metricResult = metric(leftNorm, rightNorm, node)
 	if leftNorm + rightNorm == -2 or nodeVec:norm() == 0  then
 
 		return node.point
 	end
 
-	local metric = metric ~= nil and metric or function(lNorm, rNorm, node)
-		return lNorm < rNorm
-	end
+
 	--If distance from left side is smaller, we look to the left
-	if metric(leftNorm, rightNorm, node) then
+	if metricResult then
 		if node.left == nil then
 			if node.right == nil then
 				return node.point
