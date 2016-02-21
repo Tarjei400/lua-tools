@@ -37,6 +37,7 @@ local function subset(t, from, to)
 	end
 	return ret
 end
+
 local Node = Class.create()
 Node.initialize= function(self, point, left, right, depth)
 	self.point = point
@@ -78,35 +79,80 @@ KDTree.initialize = function(self, points, depth)
 end
 KDTree.print = function(self,n)
 	if n == nil then n = self.root end
-		
-	if n.left~=nil then self:print(n.left) end
-	if n.right~=nil then self:print(n.right) end
+		print("{", unpack(n.point.coords))
+	if n.left~=nil then print(string.rep('-', n.depth).."L:")self:print(n.left) end
+	if n.right~=nil then print(string.rep('-', n.depth).."R:")self:print(n.right) end
 end
-KDTree.nearestTo = function(self, p, node)
-	print( "NEAREST")
-	if node == nil then print("root") node = self.root end
+KDTree.nearestTo = function(self, p, node, depth)
 
+	if depth == nil then depth = self.root.depth end
+	if node == nil then
+		if depth == 1 then
+			node = self.root
+		end
+	end
 	local k = p:dimention()
 
 	local axis = node.depth % k + 1
 	
 	local point = nil
-	if p:get(axis) < node.point:get(axis) then
-		if node.left == nil then print("left nil") return  node.point end
-		point = self:nearestTo(p, node.left)
+
+	local leftNorm = -1;
+	local rightNorm = -1;
+	local nodeVec = Vector(p, node.point)
+
+
+	if node.left ~= nil then
+		local leftVec = Vector(p, node.left.point)
+		leftNorm = leftVec:norm()
+	end
+	if node.right ~= nil then
+		local rightVec = Vector(p, node.right.point)
+		rightNorm = rightVec:norm()
+	end
+
+	if leftNorm + rightNorm == -2 or nodeVec:norm() == 0  then
+
+		return node.point
+	end
+
+	--If distance from left side is smaller, we look to the left
+	if leftNorm < rightNorm then
+		if node.left == nil then
+			if node.right == nil then
+				print("Children nil")
+				return node.point
+			else
+				point = self:nearestTo(p, node.right, depth + 1)
+			end
+
+		else
+			print("L:"..string.rep('-', depth))
+			point = self:nearestTo(p, node.left, depth+1)
+		end
+	-- Otherwise we check to the right
 	else
-		if node.right == nil then print("right nil") return node.point end
-		point = self:nearestTo(p, node.right)
+		if node.right == nil then
+			print("right nil")
+			if node.left == nil then
+				print("left nil")
+				return node.point
+			else
+				point = self:nearestTo(p, node.left, depth + 1)
+			end
+
+		else
+			print("R:"..string.rep('-', depth))
+			point = self:nearestTo(p, node.right, depth+1)
+		end
 	end
 
 	local childVec = Vector(p, point)
 
-	local nodeVec = Vector(p, node.point)
-
-	if childVec:norm() <= nodeVec:norm() then
-		return point
-	else
+	if childVec:norm() >= nodeVec:norm() then
 		return node.point
+	else
+		return point
 	end
 end
 
