@@ -54,10 +54,18 @@ function test_nearest()
 	end
 
 	local tree = KDTree(points)
+	local polys = {}
+	local searchTo = Point(29.5, 29.5)
+	tree:nearestTo(searchTo, function(lNorm, rNorm, node)
+		local poly = node.point.polygon
+		if poly:contains(searchTo) then
+			table.insert(polys, poly)
+		end
+		return lNorm < rNorm
+	end)
+
 	tree:print();
-
-	print("ASD")
-
+	print("Mathing polygons = "..#polys)
 
 end
 

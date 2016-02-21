@@ -84,7 +84,9 @@ function Polygon:getCentroid()
     end
 
     local npoints = self:numPoints()
-    return centroid / npoints
+    local centroid = centroid / npoints
+    centroid.polygon = self;
+    return centroid
 end
 
 
@@ -99,18 +101,18 @@ function Polygon:normalize()
 end
 
 
--- Check if this polygon contains a point
+-- Check if this polygon contains a point, on 2D plane
 -- Ray casting theorem
-function Polygon:contains(mx, my)
+function Polygon:contains(m)
     local points = self.points
     local i, j = #points, #points
     local oddNodes = false
 
     for i=1, #points do
-        if ((points[i].y < my and points[j].y >= m.y
-                or points[j].y< m.y and points[i].y>=m.y) and (points[i].x<=m.x
-                or points[j].x<=m.x)) then
-                if (points[i].x+(m.y-points[i].y)/(points[j].y-points[i].y)*(points[j].x-points[i].x)<m.x) then
+        if ((points[i]:get(2) < m:get(2) and points[j]:get(2) >= m:get(2)
+        or points[j]:get(2) < m:get(2)  and points[i]:get(2) >=m:get(2) ) and (points[i]:get(1)<=m:get(1)
+                or points[j]:get(1) <=m:get(1))) then
+                if (points[i]:get(1)+(m:get(2) -points[i]:get(2) )/(points[j]:get(2) -points[i]:get(2) )*(points[j]:get(1)-points[i]:get(1))<m:get(1)) then
                         oddNodes = not oddNodes
                 end
         end
