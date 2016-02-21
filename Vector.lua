@@ -2,13 +2,13 @@
 
 #########################################################################
 #                                                                       #
-# polygon.lua                                                           #
+# Vector.lua                                                            #
 #                                                                       #
 # Generic vector class	                                                #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # adrian.jutrowski@gmail.com                                            #
-# 			                                                #
+# 			                                                            #
 #                                                                       #
 # This program is free software: you can redistribute it and/or modify  #
 # it under the terms of the GNU General Public License as published by  #
@@ -30,7 +30,7 @@ Point = require "Point"
 
 local Vector = Class.create()
 Vector.initialize = function(self, from, to)
-	if not from:isa(Point) or not to:isa(Point) then error("from and to needs to be points") end
+	if not from:isa(Point) or not to:isa(Point) then print("from and to needs to be points") end
 	self.from = from
 	self.to = to
 end
