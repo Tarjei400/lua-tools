@@ -34,9 +34,7 @@ KDTree = require "kdtree"
 
 local test1 = nil
 local test2 = nil
-local p1 = nil
-local p2 = nil
-local p3 = nil
+
 function setup()
 	for i = 4, 30 do
 		local poly = Polygon();
