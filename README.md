@@ -4,7 +4,7 @@ Experimental implementation of KD-tree and some helper classes.
 Aimed to use for finding spatial shapes like polygons in cartesian space.
 
 This is example of finding closest point in a grid (this is unfortunate example) however does its job.
-But if a set of points is rather random, its better to use this method instead :)
+But if distribution of points is rather random, its better to use this method instead :)
 
 ```
   	KDTree = require 'kdtree'
