@@ -120,29 +120,24 @@ KDTree.nearestTo = function(self, p, node, depth)
 	if leftNorm < rightNorm then
 		if node.left == nil then
 			if node.right == nil then
-				print("Children nil")
 				return node.point
 			else
 				point = self:nearestTo(p, node.right, depth + 1)
 			end
 
 		else
-			print("L:"..string.rep('-', depth))
 			point = self:nearestTo(p, node.left, depth+1)
 		end
 	-- Otherwise we check to the right
 	else
 		if node.right == nil then
-			print("right nil")
 			if node.left == nil then
-				print("left nil")
 				return node.point
 			else
 				point = self:nearestTo(p, node.left, depth + 1)
 			end
 
 		else
-			print("R:"..string.rep('-', depth))
 			point = self:nearestTo(p, node.right, depth+1)
 		end
 	end
