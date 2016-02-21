@@ -4,7 +4,7 @@
 #                                                                       #
 # polygon.test.lua                                                      #
 #                                                                       #
-#  Polygon test class                                                   #
+# Polygon test class                                                   #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # adrian.jutrowski@gmail.com                                            #
