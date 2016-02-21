@@ -4,10 +4,11 @@ Experimental implementation of KD-tree and some helper classes.
 Aimed to use for finding spatial shapes like polygons in cartesian space.
 
 This is example of finding closest point in a grid (this is unfortunate example) however does its job.
+But if a set of points is rather random, its better to use this method instead :)
 
 ```
-  KDTree = require 'kdtree'
-  Point = require 'Point'
+  	KDTree = require 'kdtree'
+  	Point = require 'Point'
   
 	local points ={}
 	for x = 0, 100 do
@@ -18,5 +19,9 @@ This is example of finding closest point in a grid (this is unfortunate example)
 
 	local tree = KDTree(points);
 	local nearest = tree:nearestTo(Point(-1,7))
-	assert_equal(Point(0,7), nearest)
+	
 ```
+
+#TODO: 
+  - Find geo spatial primitives, closest to some point
+  - Return set of primitives meatching a condition.
