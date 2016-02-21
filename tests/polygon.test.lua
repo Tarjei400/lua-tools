@@ -4,11 +4,11 @@
 #                                                                       #
 # polygon.test.lua                                                      #
 #                                                                       #
-# Generic KDTree test class                                             #
+#  Polygon test class                                                   #
 #                                                                       #
 # Copyright 2016 Adrian Jutrowski                                       #
 # adrian.jutrowski@gmail.com                                            #
-# 			                                                #
+# 			                                                            #
 #                                                                       #
 # This program is free software: you can redistribute it and/or modify  #
 # it under the terms of the GNU General Public License as published by  #
@@ -55,8 +55,8 @@ function test_nearest()
 
 	local tree = KDTree(points)
 	local polys = {}
-	local searchTo = Point(29.5, 29.5)
-	tree:nearestTo(searchTo, function(lNorm, rNorm, node)
+	local searchTo = Point(15, 15)
+	local p = tree:nearestTo(searchTo, function(lNorm, rNorm, node)
 		local poly = node.point.polygon
 		if poly:contains(searchTo) then
 			table.insert(polys, poly)
@@ -66,6 +66,7 @@ function test_nearest()
 
 	tree:print();
 	print("Mathing polygons = "..#polys)
+	print("Nearest = ", unpack(p.coords))
 
 end
 
