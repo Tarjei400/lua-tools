@@ -36,36 +36,57 @@ local p1 = nil
 local p2 = nil
 local v = nil
 
+local test1 = nil
+local test2 = nil
 function setup()
     
     p1 = Point(0,1)
     p2 = Point(0,4)
     local coords = {
 	{0,0},
-	{0,5}
+	{0,5},
+	{0,10},
+	{15,9},
+	{15,0},
      }
   
     points = {}
     for k, v in ipairs(coords) do
-	table.insert(points, Point(unpack(v)))
-    end
+		table.insert(points, Point(unpack(v)))
+	end
+
+	check1 = points[1]
+	check2 = points[2]
 
 end
 
 
 function test_nearest()
 	local tree = KDTree(points)
-	
+	tree:print();
+
+
 	assert_equal(2, #tree.root.point.coords)
 	assert_equal("table", type(points))
-	assert_equal(2, #points)
+	assert_equal(5, #points)
 	
-	tree:print();
-	
+
 	local test1 = tree:nearestTo(p1)
 	local test2 = tree:nearestTo(p2)
-	
-	assert_equal(test1, points[1])
-	assert_equal(test2, points[2])
+
+	assert_equal(test1, check1)
+	assert_equal(test2, check2)
 end
 
+function test_dense_grid_test_nearest()
+	local points ={}
+	for x = 0, 100 do
+			for y = 0, 100 do
+				table.insert(points, Point(x,y))
+			end
+	end
+
+	local tree = KDTree(points);
+	local nearest = tree:nearestTo(Point(-1,7))
+	assert_equal(Point(0,7), nearest)
+end
