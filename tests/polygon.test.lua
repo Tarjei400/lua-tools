@@ -49,9 +49,14 @@ end
 
 function test_nearest()
 	local points = Polygon.calculateAllCentroids()
+	for k, v in pairs(points) do
+		print('POINT: ', unpack(v.coords))
+	end
+
 	local tree = KDTree(points)
 	tree:print();
 
+	print("ASD")
 
 
 end

@@ -35,12 +35,14 @@ Polygon.polygons = {}
 
 function Polygon.initialize(self)
     self:register()
+    self.points = {}
 end
 function Polygon.calculateAllCentroids()
     local ret = {}
     for k, polygon in pairs(Polygon.polygons) do
         table.insert(ret, polygon:getCentroid())
-    do
+    end
+    return ret
 end
 function Polygon:register()
     table.insert(Polygon.polygons, self)
@@ -70,7 +72,7 @@ function Polygon:getCentroid()
     end
     local centroid = Point(unpack(zeroes))
 	
-    for point in self.points do
+    for k, point in pairs(self.points) do
         centroid = centroid + point
     end
 
